@@ -1,36 +1,23 @@
 import requests
 
-# URL BoozeAPI (verejné API s drinkami)
-url = "https://api.sampleapis.com/cocktails/drinks"
+# URL pre jednotlivé alkoholy
+vodka_url = "https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=Vodka"
+gin_url = "https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=Gin"
+rum_url = "https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=Rum"
 
-# Pošleme HTTP GET požiadavku
-response = requests.get(url)
+def count_drinks(url):
+    response = requests.get(url)
+    if response.status_code == 200:
+        data = response.json()
+        drinks = data.get("drinks")
+        return len(drinks) if drinks else 0
+    else:
+        return 0
 
-# Skontrolujeme, či bola požiadavka úspešná
-if response.status_code == 200:
-    drinks = response.json()
+vodka_count = count_drinks(vodka_url)
+gin_count = count_drinks(gin_url)
+rum_count = count_drinks(rum_url)
 
-    vodka_count = 0
-    gin_count = 0
-    rum_count = 0
-
-    # Prejdeme všetky drinky
-    for drink in drinks:
-        ingredients = drink.get("ingredients", [])
-
-        # Pre istotu premeníme ingrediencie na malé písmená
-        ingredients_lower = [i.lower() for i in ingredients]
-
-        if "vodka" in ingredients_lower:
-            vodka_count += 1
-        if "gin" in ingredients_lower:
-            gin_count += 1
-        if "rum" in ingredients_lower:
-            rum_count += 1
-
-    print("Počet drinkov s vodkou:", vodka_count)
-    print("Počet drinkov s ginom:", gin_count)
-    print("Počet drinkov s rumom:", rum_count)
-
-else:
-    print("Chyba pri načítaní dát z API")
+print("Počet drinkov s vodkou:", vodka_count)
+print("Počet drinkov s ginom:", gin_count)
+print("Počet drinkov s rumom:", rum_count)
