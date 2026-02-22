@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <title>BoozeAPI Menu</title>
+    <style>
+        body { font-family: sans-serif; background: #0f172a; color: white; text-align: center; padding: 20px; }
+        .grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; }
+        .card { background: #1e293b; border-radius: 15px; width: 250px; padding: 15px; border: 1px solid #334155; }
+        .card img { width: 100%; border-radius: 10px; height: 180px; object-fit: cover; }
+        h3 { color: #38bdf8; margin: 10px 0; }
+        .info { font-size: 0.85em; color: #facc15; }
+    </style>
+</head>
+<body>
+    <h1>Kompletná ponuka BoozeAPI</h1>
+    <div class="grid">
+        {% for drink in vsetky_drinky %}
+        <div class="card">
+            <img src="{{ drink.image }}" alt="{{ drink.name }}">
+            <h3>{{ drink.name }}</h3>
+            <div class="info">
+                {{ drink.ingredients|length }} Ingrediencie | 
+                {{ drink.glass_type.label }}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
